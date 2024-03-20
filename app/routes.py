@@ -20,12 +20,12 @@ def game():
     Game page
     """
     if request.method == 'GET':
-        response = call_gemini.generate_content()
-        print(response)
+        # response = call_gemini.generate_content()
+        response = "TEST TEXT"
         return render_template('game.html', response=response)
     if request.method == 'POST':
-        response = call_gemini.generate_content()
-        print(response)
+        # response = call_gemini.generate_content()
+        response = "TEST TEXT"
         return render_template('game.html', response=response)
     return None
 
