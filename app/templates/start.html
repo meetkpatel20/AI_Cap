@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title></title>
+        <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static', filename='styles/start.css') }}">
+    </head>
+    <body>
+        <section class="genre-selection">
+            <h2>Choose a game genre</h2>
+            <div class="genres">
+                <button type="button">Action</button>
+                <button type="button">Adventure</button>
+                <button type="button">Mystery</button>
+            </div>
+        </section>
+
+        <form action="/game" method="post">
+            <button type="submit" class="begin-btn">Begin</button>
+        </form>
+
+        <!-- <p>{{ session.page }}</p> -->
+   </body>
+</html>
