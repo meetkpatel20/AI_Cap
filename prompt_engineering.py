@@ -26,37 +26,6 @@ genai.configure(api_key=GOOGLE_API_KEY)
 
 model = genai.GenerativeModel('gemini-pro')
 
-# Initial (Chapter 1) prompt -----------------------------------------------------------------------
-
-chapter_num = "first"
-
-story_length = ["ten", "six"]
-
-theme = "post-apocalyptic"
-
-person_type = "third"
-
-creature = "an amoeba"
-
-name = "Frank"
-
-prompt = f"""Write the {chapter_num} chapter (out of {story_length[0]} chapters) of a choose-your-own-adventure story
-about {theme}, written in {person_type} person, that ends with a choice for the user to make.
-The choice should have between 2 and 4 options. The protagonist should be {creature} named {name}."""
-
-story_outline = ["""The outline of the chapters should be as follows:
-                 
-                 Chapter 1
-                 Chapter 2
-                 Chapter 3
-                 ...""",
-                 """The outline of the chapters should be as follows:
-                 
-                 Chapter 1
-                 Chapter 2
-                 Chapter 3
-                 ..."""]
-
 format = """The response should be given in the following format:
 
 ### Story chapter and title ###
@@ -70,18 +39,56 @@ n. ** Option n title ** Option n description (DO NOT LIST A CHAPTER TO GO TO)"""
 
 breaker = "\n\n############################################\n\n"
 
-p1 = prompt + breaker + format
+# Initial (Chapter 1) prompt -----------------------------------------------------------------------
+
+story_length = ["ten", "six"]
+
+theme = "post-apocalyptic"
+
+person_type = "third"
+
+creature = "an amoeba"
+
+name = "Frank"
+
+# input: story_length, str -> the number of chapters the desired story should eventually reach.
+#                             (e.g., "ten" or "six")
+#        theme, str        -> the theme of the story (e.g., "post-apocalyptic" or "science fiction")
+#        person_type, str  -> the person type the story should be written in (i.e., "first",
+#                             "second", or "third")
+#        creature, str     -> the creature the protagonist should be (e.g., "human", "rabbit",
+#                             "ogre", etc.)
+#        name, str         -> the name of the protagonist
+# output: p1, str          -> the prompt to send to the model. Includes the intructions for the
+#                             model on what to do and the desired format for the model's response
+def intro_prompt(story_length, theme, person_type, creature, name):
+  instructions = f"""Write the first chapter (out of {story_length} chapters) of a choose-your-own-adventure story
+  about {theme}, written in {person_type} person, that ends with a choice for the user to make.
+  The choice should have between 2 and 4 options. The protagonist should be {creature} named {name}."""
+
+  p1 = instructions + breaker + format
+  return p1
 
 # Chapters 2-n prompt ------------------------------------------------------------------------------
 
+chapter_num = "second"
+
 choice = ""
 
-prompt2 = f"""Write the {chapter_num} chapter (out of {story_length[0]} chapters) of the choose-your-own-adventure story 
-after the user chose to do this action: {choice} 
+# input: chapter_num, str -> the number the chapter should be (e.g., "second", "third", etc.)
+#        choice, str      -> the choice the user made in the previous chapter, including the title
+#                            of the choice, the description, and possibly the number of the choice
+#                            (e.g., "1. Do nothing: Decide that it is better to not intervene.")
+# output: p2, str         -> the prompt to send to the model. Includes the instructions for the
+#                            model on what to do and the format for the model's response
+def chapter_prompt(chapter_num, choice):
+  instructions = f"""Write the {chapter_num} chapter (out of {story_length} chapters) of the choose-your-own-adventure story 
+  after the user chose to do this action: {choice} 
 
-The chapter should end in a choice for the user to make. The choice should have 4 options."""
+  The chapter should end in a choice for the user to make. The choice should have 4 options."""
 
-p2 = prompt2 + breaker + format
+  p2 = instructions + breaker + format
+  return p2
 
 # Sentiment Analysis prompt ------------------------------------------------------------------------
 
@@ -106,12 +113,20 @@ Suddenly, the air around him warped as if reality itself was bending. Frogger fe
 4. **Turn Back:** Retreat to the safety of the familiar forest, leaving the portal's secrets undisturbed.
 '''
 
-p3 = f"""Generate a sentiment analysis for the choices made in the choose-your-own adventure story below.
-The response should be a single number on a scale from 1-100 based on how {sentiment} the
-choice is, with 100 being the most {sentiment}, and 1 being the least.
+# input: sentiment, str -> the sentiment the model should use to analyze the user's choices in the
+#                          story thus far (e.g., "safe" or "optimistic")
+#        story, str     -> entire story thus far, including the chapter titles, bodies, and choices
+#                          offered, and the choices made
+# output: p3, str       -> the prompt to send to the model. Includes the instructions for the model
+#                          on what to do and the format for the model's response
+def sentiment(sentiment, story):
+  p3 = f"""Generate a sentiment analysis for the choices made in the choose-your-own adventure story below.
+  The response should be a single number on a scale from 1-100 based on how {sentiment} the
+  choice is, with 100 being the most {sentiment}, and 1 being the least.
 
-Story:
-{story}"""
+  Story:
+  {story}"""
+  return p3
 
 # Response generation-------------------------------------------------------------------------------
 
@@ -121,7 +136,7 @@ Story:
 
 chat = model.start_chat(history=[])
 
-response = chat.send_message(p1)
+response = chat.send_message(intro_prompt(story_length[0], theme, person_type, creature, name))
 print(response.text)
 #from pdb import set_trace
 #set_trace()
