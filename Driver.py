@@ -1,3 +1,9 @@
+# In this file I was trying to get familiar with importing prompt_engineering.py
+# and using the variables so that all you would need to clarify are the varibales
+# like chapter, name of character, theme, etc., and all the rest of the prompt
+# would be pulled from the other file. I also started to work on trying to send
+# the model output to history.txt, but that has since been moved to parsing.py
+
 from flask import Flask
 from markupsafe import escape
 from flask import url_for
