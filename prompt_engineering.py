@@ -62,7 +62,7 @@ name = "Frank"
 def intro_prompt(story_length, theme, person_type, creature, name):
   instructions = f"""Write the first chapter (out of {story_length} chapters) of a choose-your-own-adventure story
   about {theme}, written in {person_type} person, that ends with a choice for the user to make.
-  The choice should have between 2 and 4 options. The protagonist should be {creature} named {name}."""
+  The choice should have 4 options. The protagonist should be {creature} named {name}."""
 
   p1 = instructions + breaker + format
   return p1
