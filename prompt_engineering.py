@@ -3,8 +3,6 @@ from markupsafe import escape
 from flask import url_for
 from flask import request
 from flask import render_template, session
-import os
-import pathlib
 import textwrap
 
 import google.generativeai as genai
@@ -81,16 +79,29 @@ choice = ""
 #                            (e.g., "1. Do nothing: Decide that it is better to not intervene.")
 # output: p2, str         -> the prompt to send to the model. Includes the instructions for the
 #                            model on what to do and the format for the model's response
-def chapter_prompt(chapter_num, choice, story_length):
+def chapter_prompt(chapter_num, choice, story_length, random):
   instructions = f"""Write the {chapter_num} chapter (out of {story_length} chapters) of the choose-your-own-adventure story 
   after the user chose to do this action: {choice} 
 
   Base your response on the previous history.
 
+  The story should have possibilty of {random} out of 10 in terms of twists or negative consequences for a choice.
+
   The chapter should end in a choice for the user to make. The choice should have 4 options."""
 
   p2 = instructions + breaker + format
   return p2
+
+def endding_prompt(choice):
+  instructions = f"""Write the final chapter of the choose-your-own-adventure story 
+  after the user chose to do this action: {choice} 
+
+  Base your response on the previous history.
+
+  The chapter should end with no choices for the user to make."""
+
+  p3 = instructions + breaker + format
+  return p3
 
 # Sentiment Analysis prompt ------------------------------------------------------------------------
 
