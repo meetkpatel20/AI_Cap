@@ -17,6 +17,7 @@ from IPython.display import display
 from IPython.display import Markdown
 
 from prompt_engineering import *
+from parsing import parse
 
 
 def to_markdown(text):
@@ -87,7 +88,7 @@ Suddenly, the air around him warped as if reality itself was bending. Frogger fe
 
 chat = model.start_chat(history=[])
 
-response = chat.send_message(p1)
+response = chat.send_message(intro_prompt(story_length[0], theme, person_type, creature))
 with open(r"history.txt", "w") as f:
   f.writelines(chat.history) # doesn't work; need to treat it as json
 print(response.text)
