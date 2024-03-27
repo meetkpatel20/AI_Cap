@@ -27,101 +27,115 @@ genai.configure(api_key=GOOGLE_API_KEY)
 model = genai.GenerativeModel('gemini-pro')
 
 # Initial (Chapter 1) prompt -----------------------------------------------------------------------
+def m1(cm, sl, t, pt, c, n):
+  
+  #chapter_num = "first"
 
-chapter_num = "first"
+  #story_length = ["ten", "six"]
 
-story_length = ["ten", "six"]
+  #theme = "post-apocalyptic"
 
-theme = "post-apocalyptic"
+  #person_type = "third"
 
-person_type = "third"
+  #creature = "an amoeba"
 
-creature = "an amoeba"
+  #name = "Frank"
 
-name = "Frank"
+  chapter_num = cm
 
-prompt = f"""Write the {chapter_num} chapter (out of {story_length[0]} chapters) of a choose-your-own-adventure story
-about {theme}, written in {person_type} person, that ends with a choice for the user to make.
-The choice should have between 2 and 4 options. The protagonist should be {creature} named {name}."""
+  story_length = sl
 
-story_outline = ["""The outline of the chapters should be as follows:
-                 
-                 Chapter 1
-                 Chapter 2
-                 Chapter 3
-                 ...""",
-                 """The outline of the chapters should be as follows:
-                 
-                 Chapter 1
-                 Chapter 2
-                 Chapter 3
-                 ..."""]
+  theme = t
 
-format = """The response should be given in the following format:
+  person_type = pt
 
-### Story chapter and title ###
-Give the chapter of the story here
+  creature = c
 
-### Options ###
-1. ** Option 1 title ** Option 1 description (DO NOT LIST A CHAPTER TO GO TO)
-2. ** Option 2 title ** Option 2 description (DO NOT LIST A CHAPTER TO GO TO)
-...
-n. ** Option n title ** Option n description (DO NOT LIST A CHAPTER TO GO TO)"""
+  name = n
+  if chapter_num == "first":
+    prompt = f"""Write the {chapter_num} chapter (out of {story_length} chapters) of a choose-your-own-adventure story
+    about {theme}, written in {person_type} person, that ends with a choice for the user to make.
+    The choice should have between 2 and 4 options. The protagonist should be {creature} named {name}."""
 
-breaker = "\n\n############################################\n\n"
+    story_outline = ["""The outline of the chapters should be as follows:
+                    
+                    Chapter 1
+                    Chapter 2
+                    Chapter 3
+                    ...""",
+                    """The outline of the chapters should be as follows:
+                    
+                    Chapter 1
+                    Chapter 2
+                    Chapter 3
+                    ..."""]
 
-p1 = prompt + breaker + format
+    format = """The response should be given in the following format:
 
-# Chapters 2-n prompt ------------------------------------------------------------------------------
+    ### Story chapter and title ###
+    Give the chapter of the story here, should be as descriptive as possible.
 
-choice = ""
+    ### Options ###
+    1. ** Option 1 title ** Option 1 description (DO NOT LIST A CHAPTER TO GO TO)
+    2. ** Option 2 title ** Option 2 description (DO NOT LIST A CHAPTER TO GO TO)
+    ...
+    n. ** Option n title ** Option n description (DO NOT LIST A CHAPTER TO GO TO)"""
 
-prompt2 = f"""Write the {chapter_num} chapter (out of {story_length[0]} chapters) of the choose-your-own-adventure story 
-after the user chose to do this action: {choice} 
+    breaker = "\n\n############################################\n\n"
 
-The chapter should end in a choice for the user to make. The choice should have 4 options."""
+    p1 = prompt + breaker + format
+    response = model.generate_content(p1)
+    return(response.text)
+  else:
+  # Chapters 2-n prompt ------------------------------------------------------------------------------
+    prompt2 = f"""Write the {chapter_num}nd chapter (out of {story_length} chapters) of the choose-your-own-adventure story 
+    after the user chose to do this action: {choice} 
 
-p2 = prompt2 + breaker + format
+    The chapter should end in a choice for the user to make. The choice should have 4 options."""
 
-# Sentiment Analysis prompt ------------------------------------------------------------------------
+    p2 = prompt2 + breaker + format
+    response = model.generate_content(p2)
+    return(response.text)
 
-sentiment = "safe"
+  # Sentiment Analysis prompt ------------------------------------------------------------------------
 
-story = '''### Chapter 1: The Mysterious Portal ###
+  sentiment = "safe"
 
-In the lush, emerald depths of a rain-soaked forest, Frogger, a curious frog with a thirst for adventure, hopped along a winding path. As he peered around a bend, a glimmer of light filled his emerald eyes.
+  story = '''### Chapter 1: The Mysterious Portal ###
 
-Before him lay a shimmering portal, pulsating with an ethereal glow. Intrigued and filled with a pang of trepidation, Frogger approached cautiously. As he drew closer, the portal emitted a faint hum, inviting him inside.
+  In the lush, emerald depths of a rain-soaked forest, Frogger, a curious frog with a thirst for adventure, hopped along a winding path. As he peered around a bend, a glimmer of light filled his emerald eyes.
 
-Suddenly, the air around him warped as if reality itself was bending. Frogger felt a surge of adrenaline coursing through his tiny body. He stood at the precipice of a decision that would forever alter his destiny.
+  Before him lay a shimmering portal, pulsating with an ethereal glow. Intrigued and filled with a pang of trepidation, Frogger approached cautiously. As he drew closer, the portal emitted a faint hum, inviting him inside.
 
-### Options ###
+  Suddenly, the air around him warped as if reality itself was bending. Frogger felt a surge of adrenaline coursing through his tiny body. He stood at the precipice of a decision that would forever alter his destiny.
 
-1. **Leap Through the Portal:** Step into the shimmering void and discover the mysteries that lie beyond.
-2. **Observe from a Distance:** Remain cautious and watch the portal's behavior from afar.
-3. **Summon a Friend:** Call upon your fellow amphibians for advice and support.
-4. **Turn Back:** Retreat to the safety of the familiar forest, leaving the portal's secrets undisturbed.
+  ### Options ###
 
-### Choice 1 ###
-4. **Turn Back:** Retreat to the safety of the familiar forest, leaving the portal's secrets undisturbed.
-'''
+  1. **Leap Through the Portal:** Step into the shimmering void and discover the mysteries that lie beyond.
+  2. **Observe from a Distance:** Remain cautious and watch the portal's behavior from afar.
+  3. **Summon a Friend:** Call upon your fellow amphibians for advice and support.
+  4. **Turn Back:** Retreat to the safety of the familiar forest, leaving the portal's secrets undisturbed.
 
-p3 = f"""Generate a sentiment analysis for the choices made in the choose-your-own adventure story below.
-The response should be a single number on a scale from 1-100 based on how {sentiment} the
-choice is, with 100 being the most {sentiment}, and 1 being the least.
+  ### Choice 1 ###
+  4. **Turn Back:** Retreat to the safety of the familiar forest, leaving the portal's secrets undisturbed.
+  '''
 
-Story:
-{story}"""
+  p3 = f"""Generate a sentiment analysis for the choices made in the choose-your-own adventure story below.
+  The response should be a single number on a scale from 1-100 based on how {sentiment} the
+  choice is, with 100 being the most {sentiment}, and 1 being the least.
 
-# Response generation-------------------------------------------------------------------------------
+  Story:
+  {story}"""
 
-#response = model.generate_content(p1)
+  # Response generation-------------------------------------------------------------------------------
 
-#print(response.text)
+  response = model.generate_content(p1)
 
-chat = model.start_chat(history=[])
+  print(response.text)
 
-response = chat.send_message(p1)
-print(response.text)
-#from pdb import set_trace
-#set_trace()
+  chat = model.start_chat(history=[])
+
+  response = chat.send_message(p1)
+  #print(response.text)
+  #from pdb import set_trace
+  #set_trace()
