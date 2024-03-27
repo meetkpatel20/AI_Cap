@@ -1,20 +1,21 @@
-import parsing as p
 import prompt_engineering as pe
+print("Write the first chapter (out of ***story_length*** chapters) of a choose-your-own-adventure story about ***theme***, written in ***person_type*** person, that ends with a choice for the user to make. The choice should have between 2 and 4 options. The protagonist should be ***creature*** named ***name***.")
+story_length = int(input("How long (how many pages)? "))
+theme = input("Choose a theme (i.e. pirates, space adventure, etc.)? ")
+perspective = input("What perspective, first or third? ")
+creature = input("What creature do you want to play as? (elf, bear, human, etc) ")
+name = input("What's your name adveturer? ")
 
-f = open('history.txt', 'w')
-f.write("")
-f.close
+response = pe.chat.send_message(pe.intro_prompt(story_length, theme, perspective, creature, name))
+print(response.text)
+user_choice = int(input("What's your choice: 1, 2, 3, or 4? "))
 
-story_length = int(input("How long (how many pages)?"))
-theme = input("Choose a theme (i.e. pirates, space adventure, etc.)?")
-perspective = input("What perspective, first or third")
-creature = input("What creature do you want to play as? (elf, bear, human, etc)")
-name = input("What's your name adveturer?")
-#user_choice = input("What's your choice?")
-model = pe.m1("first", story_length, theme, perspective, creature, name)
-model_output = p.parser(model)
 
 for i in range(story_length):
     if i != 0 or i != 1:
-        model = pe.m1(i, story_length, theme, perspective, creature, name)
-        model_output = p.parser(model)
+        #model = pe.chapter_prompt(chapter_num= i, choice= user_choice, title= title, body= body)
+        #model_output, title, body = p.parser(model)
+        response = pe.chat.send_message(pe.chapter_prompt(chapter_num= i, choice= user_choice, story_length= story_length))
+        print(response.text)
+        user_choice = int(input("What's your choice: 1, 2, 3, or 4? "))
+        print("--------------------------------------------------------------------------------------------")

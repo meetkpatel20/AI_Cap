@@ -1,5 +1,3 @@
-import history_recall as hist
-h = hist.history
 def choiceParsing(choice):
     choice = choice[3:]         # get rid of choice number
     choice = choice.split("**") # split into choice title and description
@@ -23,15 +21,10 @@ def parser(model):
         choices[i] = choiceParsing(choices[i])
 
     print("Title: ", title[1], "\n")
-    h.histore(title[1])
     print("Body: " + body + "\n")
-    h.histore(body)
     print("Choice 1:", choices[0], "\n")
     print("Choice 2:", choices[1], "\n")
     print("Choice 3:", choices[2], "\n")
     print("Choice 4:", choices[3])
-    
     choice = int(input("What's your choice: 1, 2, 3, or 4?"))
-    c = choices[choice-1][0]
-    h.histore(c)
-    return("You chosice is " + c)
+    return(choices[choice-1], title, body)
