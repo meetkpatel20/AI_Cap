@@ -6,7 +6,7 @@ val = True
 while val == True:
     try:  
         story_length = int(input("How long (how many pages)? \n"))
-        theme = input("Choose a theme (i.e. pirates, space adventure, etc.)? \n")
+        theme = str(input("Choose a theme (i.e. pirates, space adventure, etc.)? \n"))
         perspective = input("What perspective, first or third? \n")
         creature = input("What creature do you want to play as? (elf, bear, human, etc) \n")
         name = input("What's your name adveturer? \n")
