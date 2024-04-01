@@ -43,13 +43,13 @@ breaker = "\n\n############################################\n\n"
 
 story_length = ["ten", "six"]
 
-theme = "post-apocalyptic"
+theme = "historical fiction"
 
-person_type = "third"
+person_type = "first"
 
-creature = "an amoeba"
+creature = "dragon"
 
-name = "Frank"
+name = "Johnny"
 
 # input: story_length, str -> the number of chapters the desired story should eventually reach.
 #                             (e.g., "ten" or "six")
