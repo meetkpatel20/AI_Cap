@@ -3,7 +3,7 @@ from app import prompt, constants
 
 # Text Method
 genai.configure(api_key=constants.GOOGLE_API_KEY)
-model = genai.GenerativeModel('gemini-pro')
+model = genai.GenerativeModel("gemini-pro")
 TEXT = ""
 
 
