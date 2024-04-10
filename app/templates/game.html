@@ -13,10 +13,11 @@
             <h1>Chapter {{ title_head }}: {{ title_desc }}</h1>
             <h4>{{ body }}</h4>
             <form action="/game" method="post">
-                <button type="submit" name="choice-btn" value="{{ choice1 }}">{{ choice1 }}</button>
-                <button type="submit" name="choice-btn" value="{{ choice2 }}">{{ choice2 }}</button>
-                <button type="submit" name="choice-btn" value="{{ choice3 }}">{{ choice3 }}</button>
-                <button type="submit" name="choice-btn" value="{{ choice4 }}">{{ choice4 }}</button>
+                <button type="submit" class="button" name="choice-btn" value="{{ choice1 }}"><b>{{ choice1[0] }}</b> <br>{{ choice1[1] }}</button>
+                <button type="submit" class="button" name="choice-btn" value="{{ choice2 }}"><b>{{ choice2[0] }}</b> <br>{{ choice2[1] }}</button>
+                <br>
+                <button type="submit" class="button" name="choice-btn" value="{{ choice3 }}"><b>{{ choice3[0] }}</b> <br>{{ choice3[1] }}</button>
+                <button type="submit" class="button" name="choice-btn" value="{{ choice4 }}"><b>{{ choice4[0] }}</b> <br>{{ choice4[1] }}</button>
             </form>
         </div>
         <section class="image-side">
