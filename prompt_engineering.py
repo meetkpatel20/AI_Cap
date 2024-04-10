@@ -22,7 +22,10 @@ from constants import GOOGLE_API_KEY
 
 genai.configure(api_key=GOOGLE_API_KEY)
 
-model = genai.GenerativeModel('gemini-pro')
+
+
+model = genai.GenerativeModel('gemini-pro', )
+
 
 format = """The response should be given in the following format:
 
