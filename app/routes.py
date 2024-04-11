@@ -21,10 +21,10 @@ def start():
     """
     session["current_chapter"] = 0
     session["story_length"] = 1
-    session["theme"] = "school"
-    session["person_type"] = "student"
-    session["creature"] = "human"
-    session["name"] = "Jake"
+    session["theme"] = "sci-fi mystery"
+    session["person_type"] = "first person"
+    session["creature"] = "dragon"
+    session["name"] = "Zonpur"
 
     return render_template("start.html")
 
