@@ -63,7 +63,7 @@ def parse(model_output):
     for i in range(len(choices)):
         choices[i] = choiceParsing(choices[i])
     
-    return title, body, choices
+    return title, body, choices, model_output
 
 # model_output_test = """### Chapter 1: The Desolate Dawn ###
 

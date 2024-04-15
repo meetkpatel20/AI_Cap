@@ -2,6 +2,7 @@
 Routes for game engine
 """
 import google.generativeai as genai
+from openai import OpenAI
 from flask import render_template, request, redirect, url_for, session
 
 from app import constants
@@ -12,6 +13,11 @@ from app.parsing import parse
 genai.configure(api_key=constants.GOOGLE_API_KEY)
 CHAT = genai.GenerativeModel("gemini-pro").start_chat(history=[])
 
+client = OpenAI()
+# chat_completion = client.chat.completions.create(
+#     model="gpt-3.5-turbo",
+#     messages=[{"role": "user", "content": "Hello world"}]
+# )
 
 @app.route("/")
 @app.route("/start")
@@ -93,6 +99,7 @@ def game():
     choice2 = parsed_response[2][1]
     choice3 = parsed_response[2][2]
     choice4 = parsed_response[2][3]
+    output = parsed_response[3]
     return render_template(
         "game.html",
         title_head=title[0],
@@ -101,5 +108,6 @@ def game():
         choice1=choice1,
         choice2=choice2,
         choice3=choice3,
-        choice4=choice4
+        choice4=choice4,
+        output=output
     )
