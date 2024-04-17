@@ -4,6 +4,8 @@
 <!--
 
     The loading JavaScript doesn't work and I don't know why!!!
+    Professor Moore suggested trying to copy over stuff as much as possible and just get the countUp function
+    to work here, and then try making incremental changes until it works as we would like it to.
 
 -->
 <head>
@@ -43,9 +45,9 @@
             <label for="name">Name</label>
             <input type="name" name="name" value="">
         </div>
-        <button type="submit" class="begin-btn">Begin</button>
+        <button type="submit" class="begin-btn" onclick="loadingNotifier()">Begin</button>
     </form>
-    <p id="loading"></p>
+    <p id="loading"> </p>
     <script src="start.js"></script>
 </body>
 
