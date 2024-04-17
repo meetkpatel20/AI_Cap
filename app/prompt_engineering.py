@@ -1,10 +1,8 @@
-import textwrap
-from IPython.display import Markdown
-
-
-def to_markdown(text):
-    text = text.replace("•", "  *")
-    return Markdown(textwrap.indent(text, "> ", predicate=lambda _: True))
+class Prompt:
+    def __init__(self):
+        self.format = """
+        """
+        self.breaker = "\n\n############################################\n\n"
 
 
 FORMAT = """The response should be given in the following format:
@@ -17,6 +15,15 @@ Give the chapter of the story here
 2. ** Option 2 title ** Option 2 description (DO NOT LIST A CHAPTER TO GO TO)
 ...
 n. ** Option n title ** Option n description (DO NOT LIST A CHAPTER TO GO TO)"""
+
+
+ENDING_FORMAT = """The response should be given in the following format:
+
+### Story chapter and title ###
+Give the chapter of the story here
+
+"""
+
 
 BREAKER = "\n\n############################################\n\n"
 
@@ -69,7 +76,7 @@ def chapter_prompt(chapter_num, choice, story_length, random):
     return instructions + BREAKER + FORMAT
 
 
-def endding_prompt(choice):
+def ending_prompt(choice):
     """
     Generates the prompt for the final chapter of the story.
 
@@ -86,7 +93,7 @@ def endding_prompt(choice):
 
         The chapter should end with no choices for the user to make."""
 
-    return instructions + BREAKER + FORMAT
+    return instructions + BREAKER + ENDING_FORMAT 
 
 
 # Sentiment Analysis prompt ------------------------------------------------------------------------
