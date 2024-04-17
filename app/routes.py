@@ -12,6 +12,14 @@ from app.parsing import parse, parse_ending
 genai.configure(api_key=constants.GOOGLE_API_KEY)
 CHAT = genai.GenerativeModel("gemini-pro").start_chat(history=[])
 
+# from openai import OpenAI
+
+# client = OpenAI()
+# chat_completion = client.chat.completions.create(
+#     model="gpt-3.5-turbo",
+#     messages=[{"role": "user", "content": "Hello world"}]
+# )
+# print(chat_completion.choices[0].message.content)
 
 @app.route("/")
 @app.route("/start")
@@ -91,7 +99,6 @@ def game():
     choice2 = parsed_response[2][1]
     choice3 = parsed_response[2][2]
     choice4 = parsed_response[2][3]
-
     return render_template(
         "game.html",
         title_head=session["current_chapter"],
