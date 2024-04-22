@@ -5,6 +5,10 @@ body {
     display: flex;
 }
 
+h4 {
+    width: 50%;
+}
+
 .containter {
     display: flex;
     justify-content: center;
