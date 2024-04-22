@@ -2,17 +2,18 @@
 Routes for game engine
 """
 import google.generativeai as genai
-from flask import render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session
 
 from app import constants
 from app import app
-from app.prompt_engineering import chapter_prompt, intro_prompt
-from app.parsing import parse
+#from app.prompt_engineering import chapter_prompt, intro_prompt
+from app.parsing import parser
 from app import text_gen
 
 genai.configure(api_key=constants.GOOGLE_API_KEY)
 CHAT = genai.GenerativeModel("gemini-pro").start_chat(history=[])
 
+app = Flask(__name__)
 
 @app.route('/')
 @app.route('/start')
@@ -36,7 +37,14 @@ def begin():
     """
     session["current_chapter"] += 1
     prompt = text_gen.intro_prompt(session)
-    text_gen.model(prompt)
+    response = text_gen.model(prompt)
+    parsed_response = parser(response)
+    title = parsed_response[0]
+    body = parsed_response[1]
+    choice1 = parsed_response[2][0]
+    choice2 = parsed_response[2][1]
+    choice3 = parsed_response[2][2]
+    choice4 = parsed_response[2][3]
 
     """response = CHAT.send_message(
         intro_prompt(
@@ -93,3 +101,7 @@ def game():
 def refresh():
     """"""
     return redirect(url_for('game'))
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
