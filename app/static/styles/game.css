@@ -21,3 +21,7 @@ body {
     width: 49%;
     white-space: normal;
 }
+
+.loading{
+    text-align: center;
+}
