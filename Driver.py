@@ -3,6 +3,7 @@ import random
 import app.text_gen as text
 print("Write the first chapter (out of ***story_length*** chapters) of a choose-your-own-adventure story about ***theme***, written in ***person_type*** person. The protagonist should be ***creature*** named ***name***.\n")
 env = []
+env['history'] = [""]
 val = True
 while val == True:
     try:  
@@ -22,7 +23,7 @@ while val == True:
 response = text.intro_prompt(env)
 #response = pe.chat.send_message(pe.intro_prompt(story_length, theme, perspective, creature, name))
 #print(response.text)
-text.model(response)
+response = text.model(response, history)
 val = True
 while val == True:
     try:   

@@ -42,16 +42,12 @@ def mid_prompt(env, choice):
     The chapter should end in a choice for the user to make. The choice should have 4 options."""
     
     return prompt + breaker + format
-def model(prompt):
+def model(prompt, history):
     stream = client.chat.completions.create(
         model="gpt-3.5",
-        messages=[{"role": "user", "content": prompt}],
-        stream=True,
+        messages=[{"role": "user", "content": prompt},
+                  {'role': "system", "content": "Here is the history of the chat: " + history}],
+        top_p=.2,
     )
-    #return stream
-    out = ""
-    for chunk in stream:
-        if chunk.choices[0].delta.content is not None:
-            print(chunk.choices[0].delta.content, end="")
-            out = out + chunk.choices[0].delta.content
-    return out
+    return stream
+
