@@ -17,9 +17,18 @@
     </head>
 
     <body>
-        <div class="container">
-            <h1>Chapter {{ title_head }}: {{ title_desc }}</h1>
-            <h4>{{ body }}</h4>
+        <div class="top">
+            <div class="container">
+                <h1>Chapter {{ title_head }}: {{ title_desc }}</h1>
+                <h4>{{ body }}</h4>
+            </div>
+            <section class="image-side">
+                <div>
+                    <img src="/static/image/image.jpg" alt="test image" height="400em" width="400em">
+                </div>
+            </section>
+        </div>
+        <div>
             <form action="/game" method="post">
                 <button type="button submit" class="btn btn-primary btn-lg button" name="choice-btn" value="{{ choice1 }}" onclick="loadingNotifier()"><b>{{ choice1[0] }}</b> <br>{{ choice1[1] }}</button>
                 <button type="button submit" class="btn btn-primary btn-lg button" name="choice-btn" value="{{ choice2 }}" onclick="loadingNotifier()"><b>{{ choice2[0] }}</b> <br>{{ choice2[1] }}</button>
@@ -29,11 +38,6 @@
             </form>
             <p id="loading" class="loading"></p>
         </div>
-        <section class="image-side">
-            <div>
-                <img src="/static/image/image.jpg" alt="test image" height="400em" width="400em">
-            </div>
-        </section>
         <script src="/static/js/game.js"></script>
     </body>
 
