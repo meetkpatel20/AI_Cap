@@ -3,7 +3,7 @@
 
 <!--
 
-    The loading JavaScript doesn't work and I don't know why!!!
+    I didn't end up trying the alert, but the issue was the src file path. The JavaScript files should work now!
 
 -->
 <head>
@@ -25,28 +25,44 @@
     <form action="/begin" method="get">
         <div>
             <label for="story-length">Story Length</label>
+            <br>
             <input type="number" name="story-length" value="">
         </div>
         <div>
             <label for="theme">Theme</label>
-            <input type="text" name="theme" value="">
+            <br>
+            <input type="text" name="theme" value="" placeholder="fantasy, sci-fi mystery, etc.">
         </div>
         <div>
             <label for="person-type">Person Type</label>
-            <input type="text" name="person-type" value="">
+            <br>
+            <!-- <input type="text" name="person-type" value=""> -->
+            <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                <input type="radio" class="btn-check" name="person-type" id="btnradio1" autocomplete="off" value="first person" checked>
+                <label class="btn btn-outline-primary" for="btnradio1">First Person</label>
+              
+                <input type="radio" class="btn-check" name="person-type" id="btnradio2" autocomplete="off" value="second person">
+                <label class="btn btn-outline-primary" for="btnradio2">Second Person</label>
+              
+                <input type="radio" class="btn-check" name="person-type" id="btnradio3" autocomplete="off" value="third person">
+                <label class="btn btn-outline-primary" for="btnradio3">Third Person</label>
+              </div>
         </div>
         <div>
             <label for="creature">Creature</label>
-            <input type="text" name="creature" value="">
+            <br>
+            <input type="text" name="creature" value="" placeholder="human, ogre, toad, etc.">
         </div>
         <div>
-            <label for="name">Name</label>
+            <label for="name">Character Name</label>
+            <br>
             <input type="name" name="name" value="">
         </div>
-        <button type="submit" class="begin-btn">Begin</button>
+        <br>
+        <button type="submit" class="begin-btn" onclick="loadingNotifier()">Begin</button>
     </form>
-    <p id="loading"></p>
-    <script src="start.js"></script>
+    <p id="loading" class="loading"></p>
+    <script src="/static/js/start.js"></script>
 </body>
 
 </html>

@@ -42,3 +42,10 @@ h1 {
     background-color: #0056b3;
 }
 
+.loading{
+    text-align: center;
+}
+
+form {
+    text-align: center;
+}

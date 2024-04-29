@@ -3,6 +3,18 @@
 
 body {
     display: flex;
+    flex-direction: column;
+}
+
+/*h4 {
+    width: 25%;
+}*/
+
+#title {
+    width: 100%;
+    height: 10vh;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 .containter {
@@ -12,12 +24,52 @@ body {
 }
 
 .image-side {
-    width: 500px;
+    width: 50%;
     height: 100%;
-    background-color: lightblue;
+    /* background-color: lightblue; */
+}
+
+.top {
+    display: flex;
+    justify-content: space-around;
+    height: 60vh;
+}
+
+.bottom {
+    justify-content: center;
+    height: 37vh;
+    /*bottom: 0px;
+    position: fixed;
+    background-color: slategray;
+    border-top-left-radius: 2em;
+    border-top-right-radius: 2em;*/
 }
 
 .button {
     width: 49%;
     white-space: normal;
+}
+
+.loading{
+    text-align: center;
+}
+
+div.body {
+    /*margin: 4px, 4px;
+    padding: 4px;*/
+    width: 100%;
+    height: 50vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    text-align: justify;
+}
+
+div.choices {
+    /*margin: 4px, 4px;
+    padding: 4px;*/
+    width: 100%;
+    height: 35vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    text-align: justify;
 }
