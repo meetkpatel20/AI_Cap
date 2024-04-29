@@ -30,7 +30,7 @@
                 </div>
             </section>
         </div>
-        <div>
+        <div class="bottom">
             <form action="/game" method="post">
                 <button type="button submit" class="btn btn-primary btn-lg button" name="choice-btn" value="{{ choice1 }}" onclick="loadingNotifier()"><b>{{ choice1[0] }}</b> <br>{{ choice1[1] }}</button>
                 <button type="button submit" class="btn btn-primary btn-lg button" name="choice-btn" value="{{ choice2 }}" onclick="loadingNotifier()"><b>{{ choice2[0] }}</b> <br>{{ choice2[1] }}</button>
@@ -39,8 +39,8 @@
                 <button type="button submit" class="btn btn-primary btn-lg button" name="choice-btn" value="{{ choice4 }}" onclick="loadingNotifier()"><b>{{ choice4[0] }}</b> <br>{{ choice4[1] }}</button>
             </form>
             <p id="loading" class="loading"></p>
-            <br>
-            <p id="output">{{ output }}</p>
+            <!-- <br>
+            <p id="output">{{ output }}</p> -->
         </div>
         <script src="/static/js/game.js"></script>
     </body>
