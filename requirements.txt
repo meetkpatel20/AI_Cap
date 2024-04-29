@@ -1,4 +1,4 @@
 flask
-google-generativeai
-ipython
+openai
 python-dotenv
+beautifulsoup4

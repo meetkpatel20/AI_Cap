@@ -1,2 +1,1 @@
 FLASK_APP=game.py
-FLASK_DEBUG=1
