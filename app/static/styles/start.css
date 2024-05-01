@@ -49,3 +49,14 @@ h1 {
 form {
     text-align: center;
 }
+
+div.top {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40vh;
+}
+
+div.bottom {
+    height: 60vh;
+}

@@ -22,46 +22,52 @@
 </head>
 
 <body>
-    <form action="/begin" method="get">
-        <div>
-            <label for="story-length">Story Length</label>
+    <div class="top">
+        <h1>Title TBD</h1>
+        <!-- Professor Porter suggestions: "GPT Your Own Adventure", "Chat Your Own Adventure" -->
+    </div>
+    <div class="bottom">
+        <form action="/begin" method="get">
+            <div>
+                <label for="story-length">Story Length</label>
+                <br>
+                <input type="number" name="story-length" value="">
+            </div>
+            <div>
+                <label for="theme">Theme</label>
+                <br>
+                <input type="text" name="theme" value="" placeholder="fantasy, sci-fi mystery, etc.">
+            </div>
+            <div>
+                <label for="person-type">Person Type</label>
+                <br>
+                <!-- <input type="text" name="person-type" value=""> -->
+                <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                    <input type="radio" class="btn-check" name="person-type" id="btnradio1" autocomplete="off" value="first person" checked>
+                    <label class="btn btn-outline-primary" for="btnradio1">First Person</label>
+                
+                    <input type="radio" class="btn-check" name="person-type" id="btnradio2" autocomplete="off" value="second person">
+                    <label class="btn btn-outline-primary" for="btnradio2">Second Person</label>
+                
+                    <input type="radio" class="btn-check" name="person-type" id="btnradio3" autocomplete="off" value="third person">
+                    <label class="btn btn-outline-primary" for="btnradio3">Third Person</label>
+                </div>
+            </div>
+            <div>
+                <label for="creature">Creature</label>
+                <br>
+                <input type="text" name="creature" value="" placeholder="human, ogre, toad, etc.">
+            </div>
+            <div>
+                <label for="name">Character Name</label>
+                <br>
+                <input type="name" name="name" value="">
+            </div>
             <br>
-            <input type="number" name="story-length" value="">
-        </div>
-        <div>
-            <label for="theme">Theme</label>
-            <br>
-            <input type="text" name="theme" value="" placeholder="fantasy, sci-fi mystery, etc.">
-        </div>
-        <div>
-            <label for="person-type">Person Type</label>
-            <br>
-            <!-- <input type="text" name="person-type" value=""> -->
-            <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                <input type="radio" class="btn-check" name="person-type" id="btnradio1" autocomplete="off" value="first person" checked>
-                <label class="btn btn-outline-primary" for="btnradio1">First Person</label>
-              
-                <input type="radio" class="btn-check" name="person-type" id="btnradio2" autocomplete="off" value="second person">
-                <label class="btn btn-outline-primary" for="btnradio2">Second Person</label>
-              
-                <input type="radio" class="btn-check" name="person-type" id="btnradio3" autocomplete="off" value="third person">
-                <label class="btn btn-outline-primary" for="btnradio3">Third Person</label>
-              </div>
-        </div>
-        <div>
-            <label for="creature">Creature</label>
-            <br>
-            <input type="text" name="creature" value="" placeholder="human, ogre, toad, etc.">
-        </div>
-        <div>
-            <label for="name">Character Name</label>
-            <br>
-            <input type="name" name="name" value="">
-        </div>
-        <br>
-        <button type="submit" class="begin-btn" onclick="loadingNotifier()">Begin</button>
-    </form>
-    <p id="loading" class="loading"></p>
+            <button type="submit" class="begin-btn" onclick="loadingNotifier()">Begin your journey</button>
+        </form>
+        <p id="loading" class="loading"></p>
+    </div>
     <script src="/static/js/start.js"></script>
 </body>
 
