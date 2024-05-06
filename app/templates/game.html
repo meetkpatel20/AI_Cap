@@ -19,7 +19,7 @@
     <body>
         <div class="top">
             <div class="container">
-                <h1 id="title">Chapter {{ title_head }}: {{ title_desc }}</h1>
+                <h1 id="title">Chapter {{ chapter_num }}: {{ title }}</h1>
                 <div class="body">
                     <h4>{{ body }}</h4>
                 </div>
@@ -33,11 +33,10 @@
         <div class="bottom">
             <div class="choices">
                 <form action="/game" method="post">
-                    <button type="button submit" class="btn btn-primary btn-lg button" name="choice-btn" value="{{ choice1 }}" onclick="loadingNotifier()"><b>{{ choice1[0] }}</b> <br>{{ choice1[1] }}</button>
-                    <button type="button submit" class="btn btn-primary btn-lg button" name="choice-btn" value="{{ choice2 }}" onclick="loadingNotifier()"><b>{{ choice2[0] }}</b> <br>{{ choice2[1] }}</button>
-                    <br>
-                    <button type="button submit" class="btn btn-primary btn-lg button" name="choice-btn" value="{{ choice3 }}" onclick="loadingNotifier()"><b>{{ choice3[0] }}</b> <br>{{ choice3[1] }}</button>
-                    <button type="button submit" class="btn btn-primary btn-lg button" name="choice-btn" value="{{ choice4 }}" onclick="loadingNotifier()"><b>{{ choice4[0] }}</b> <br>{{ choice4[1] }}</button>
+                    <button type="button submit" class="btn btn-primary btn-lg button" name="choice-btn" value="{{ choice1 }}" onclick="loadingNotifier()">{{ choice1 }}</button>
+                    <button type="button submit" class="btn btn-primary btn-lg button" name="choice-btn" value="{{ choice2 }}" onclick="loadingNotifier()">{{ choice2 }}</button>
+                    <button type="button submit" class="btn btn-primary btn-lg button" name="choice-btn" value="{{ choice3 }}" onclick="loadingnotifier()">{{ choice3 }}</button>
+                    <button type="button submit" class="btn btn-primary btn-lg button" name="choice-btn" value="{{ choice4 }}" onclick="loadingNotifier()">{{ choice4 }}</button>
                 </form>
             </div>
             <p id="loading" class="loading"></p>

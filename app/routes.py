@@ -1,25 +1,22 @@
 """
 Routes for game engine
 """
-import google.generativeai as genai
+from openai import OpenAI
 from flask import render_template, request, redirect, url_for, session
 
-from app import constants
 from app import app
-from app.prompt_engineering import chapter_prompt, ending_prompt, intro_prompt
-from app.parsing import parse, parse_ending
+from app.prompt_engineering import (
+    create_system_message,
+    create_intro_prompt,
+    create_game_prompt,
+    create_ending_prompt,
+)
+from app.parsing import parse_response
+from app.model_helpers import add_message_to_history, send_message
 
-genai.configure(api_key=constants.GOOGLE_API_KEY)
-CHAT = genai.GenerativeModel("gemini-pro").start_chat(history=[])
+client = OpenAI()
+HISTORY = []
 
-# from openai import OpenAI
-
-# client = OpenAI()
-# chat_completion = client.chat.completions.create(
-#     model="gpt-3.5-turbo",
-#     messages=[{"role": "user", "content": "Hello world"}]
-# )
-# print(chat_completion.choices[0].message.content)
 
 @app.route("/")
 @app.route("/start")
@@ -44,32 +41,36 @@ def begin():
     session["creature"] = request.args.get("creature")
     session["name"] = request.args.get("name")
 
-    response = CHAT.send_message(
-        intro_prompt(
-            session["story_length"],
-            session["theme"],
-            session["person_type"],
-            session["creature"],
-            session["name"],
-        )
+    system_message = create_system_message(
+        session["story_length"],
+        session["theme"],
+        session["person_type"],
+        session["creature"],
+        session["name"],
     )
-    parsed_response = parse(response.text)
+    add_message_to_history(HISTORY, "system", system_message)
+
+    message = send_message(HISTORY, create_intro_prompt())
+
+    parsed_response = parse_response(message)
+
     title = parsed_response[0]
     body = parsed_response[1]
-    choice1 = parsed_response[2][0]
-    choice2 = parsed_response[2][1]
-    choice3 = parsed_response[2][2]
-    choice4 = parsed_response[2][3]
+    image_prompt = parsed_response[2]
+    choices = parsed_response[3:]
+
+    # call image generation here
 
     return render_template(
         "begin.html",
-        title_head=session["current_chapter"],
-        title_desc=title[1],
+        chapter_num=session["current_chapter"],
+        title=title,
         body=body,
-        choice1=choice1,
-        choice2=choice2,
-        choice3=choice3,
-        choice4=choice4,
+        # image_link = image_link
+        choice1=choices[0],
+        choice2=choices[1],
+        choice3=choices[2],
+        choice4=choices[3],
     )
 
 
@@ -83,52 +84,42 @@ def game():
     if session["current_chapter"] == int(session["story_length"]):
         return redirect(url_for("end"))
 
-    choice_made = request.form["choice-btn"]
-    response = CHAT.send_message(
-        chapter_prompt(
-            chapter_num=session["current_chapter"],
-            story_length=session["story_length"],
-            choice=choice_made,
-            random="1",
-        )
+    message = send_message(
+        HISTORY, create_game_prompt(session["current_chapter"], HISTORY[-1]["content"])
     )
-    parsed_response = parse(response.text)
+
+    parsed_response = parse_response(message)
+    print(parsed_response)
+
     title = parsed_response[0]
     body = parsed_response[1]
-    choice1 = parsed_response[2][0]
-    choice2 = parsed_response[2][1]
-    choice3 = parsed_response[2][2]
-    choice4 = parsed_response[2][3]
+    image_prompt = parsed_response[2]
+    choices = parsed_response[3:]
+
+    # call image generation here
+
     return render_template(
         "game.html",
-        title_head=session["current_chapter"],
-        title_desc=title[1],
+        chapter_num=session["current_chapter"],
+        title=title,
         body=body,
-        choice1=choice1,
-        choice2=choice2,
-        choice3=choice3,
-        choice4=choice4,
+        # image_link = image_link
+        choice1=choices[0],
+        choice2=choices[1],
+        choice3=choices[2],
+        choice4=choices[3],
     )
 
 
 @app.route("/end", methods=["GET"])
 def end():
-    choice_made = request.args.get("choice-btn")
-    response = CHAT.send_message(ending_prompt(choice_made))
-    parsed_response = parse_ending(response.text)
+    response = send_message(HISTORY, create_ending_prompt(HISTORY[-1]["content"]))
+    parsed_response = parse_response(response)
     title = parsed_response[0]
     body = parsed_response[1]
     return render_template(
         "end.html",
-        title_head=session["current_chapter"],
-        title_desc=title[1],
+        chapter_num=session["current_chapter"],
+        title=title,
         body=body,
     )
-
-
-# title = (100, "TESTING")
-# body = "Lorem ipsum dolor sit amet, consectetur et est culpa et culpa duis."
-# choice1 = "test"
-# choice2 = "test test"
-# choice3 = "test test test"
-# choice4 = "test test test test"
