@@ -64,6 +64,7 @@ text1 = "In the land of Dracoria, where the mountains scraped the sky and the ri
 text2 = "But beyond the borders of Dracoria, darkness loomed—a shadowy force known as the Void, hungry for the destruction of all that was pure and true. Led by the enigmatic Shadow Lord, its armies marched relentlessly, seeking to enslave the dragons and bend their power to their will. In the face of this threat, Elandra called upon the bravest of souls—a young dragon rider named Aric, whose bond with his dragon companion, Ember, burned brighter than the fiercest flame. Together, they embarked on a quest to unite the scattered tribes of dragons, forging alliances and awakening ancient powers long thought lost to the sands of time."
 text3 = "As they journeyed across Dracoria, they encountered trials and tribulations beyond imagination—fierce battles against monstrous beasts, treacherous journeys through unforgiving landscapes, and tests of courage that pushed them to the very brink of despair. Yet, with each challenge they faced, their bond grew stronger, their resolve unyielding in the face of adversity. At last, they stood before the gates of the Dragon's Keep, where Elandra awaited them with a wisdom as ancient as the stars. Together, they devised a plan to confront the Shadow Lord and his minions, to drive back the darkness and restore peace to the realm once more."
 text4 = "With hearts ablaze and spirits unbroken, Aric and Ember soared into battle, their cries echoing through the mountains and valleys of Dracoria. And as the sun set on the horizon, casting its golden light upon the battlefield, they emerged victorious—a testament to the indomitable spirit of the dragons and the power of friendship, courage, and love to conquer even the darkest of foes. And so, in the land of Dracoria, the tale of dragons lived on—a tale of fire and fury, of triumph and sacrifice, and of the eternal bond between dragon and rider that would endure for all eternity."
+
 #response = gen.model(respo, env["history"])
 #respo = "A book cover to a story about a human excaping prison. Don't include words and keep the image clear."
 #prompt = "Create the "
@@ -71,30 +72,41 @@ text4 = "With hearts ablaze and spirits unbroken, Aric and Ember soared into bat
 #respo = gen.intro_prompt(env)
 #response = "Create an image of a disembodied head of a man, he is looking directly at the camera. He isn't scary, but rather a kind looking head. The head should go down to the top of the shoulders."
 #response = gen.model(respo, env)
+
 work = False
 fails = 0
 while work == False:
     try:
         response = gen.IMG_Prompt_model(text1)
-        response['chapter'] = text1
+        print("1")
+        response['chapter'] = gen.IMG_Prompt_gen(text1)
+        print("2")
         gen.img_model(response)
+        print("3")
 
         #response = gen.IMG_Prompt_model(text2)
-        response['chapter'] = text2
+        #response['chapter'] = text2
+        
+        response['chapter'] = gen.IMG_Prompt_gen(text2)
         gen.img_model(response)
         #response = gen.img_model(art)
-        response['chapter'] = text3
+        #response['chapter'] = text3
+        
+        response['chapter'] = gen.IMG_Prompt_gen(text3)
         gen.img_model(response)
-        response['chapter'] = text4
+        #response['chapter'] = text4
+        
+        response['chapter'] = gen.IMG_Prompt_gen(text4)
         gen.img_model(response)
 
         #print(response)
         work = True
     except Exception as e:
         print("trying again")
+        print(e)
         work = False
         fails += 1
-        if fails > 10:
+        if fails > 5:
             work = True
 print(fails)
 "Digital painting of a distinctly feminine green-eyed, white-furred tabaxi monk (with fluffy cheeks and a tuft on her head) with gradient shading, clean linework, vibrant palette, and stylized proportions. Wearing a simple green monk tunic and carrying a pack, [scenario]"

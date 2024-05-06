@@ -60,13 +60,13 @@ def IMG_Prompt_model(prompt):
     )
     
 
-
     print(stream)
     result = stream.model_dump_json()
     data = json.loads(result)
+    new_art = {}
+    #new_art['chapter'] = data['choices'][0]['message']['content'][0]
     content = data['choices'][0]['message']['content']
     content_data = json.loads(content)
-    new_art = {}
     new_art['gender'] = content_data['gender']
     new_art['age'] = content_data['age']
     new_art['eye_color'] = content_data['eye_color']
@@ -79,11 +79,23 @@ def IMG_Prompt_model(prompt):
     new_art['bottom'] = content_data['bottom']
     new_art['shoes'] = content_data['shoes']
     new_art['creature'] = content_data['creature']
-    
     return(new_art)
     #return result.choices[0].message.content
     #return result['choices'][0]['message'].strip()
 
+def IMG_Prompt_gen(prompt):
+    stream = client.chat.completions.create(
+        model="gpt-3.5-turbo-0125",
+        response_format={ "type": "json_object" },
+        messages=[{"role": "user", "content": prompt},
+                  {"role": "system", "content": "You are a helpful assistant designed to output JSON."},
+                  {"role": "system", "content": "Based on the prompt provided, write one sentence describing the scenario."},],
+                  #{'role': "system", "content": "Here is the history of the chat: " + history}],
+    )
+    
+
+    print(stream.choices[0].message.content)
+    return stream.choices[0].message.content
 def img_model(art):
     respo2 = f"""
     Generate an image using this exact template:
@@ -95,7 +107,7 @@ def img_model(art):
 
     {art["chapter"]}
 
-    Do not add text to the painting and only make one painting.
+    Do not add text to the painting and only make one image.
 
     """
     response = client.images.generate(
