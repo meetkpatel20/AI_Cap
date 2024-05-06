@@ -23,7 +23,7 @@ while val == True:
 response = text.intro_prompt(env)
 #response = pe.chat.send_message(pe.intro_prompt(story_length, theme, perspective, creature, name))
 #print(response.text)
-response = text.model(response, history)
+response = text.model(response, env['history'])
 val = True
 while val == True:
     try:   

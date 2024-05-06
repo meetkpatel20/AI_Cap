@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title></title>
     <style>
-        body {
+       .body {
             background-color: black;
             background-size: cover;
             background-position: center;
@@ -24,7 +24,7 @@
 <body>
     <div class="content">
         <h1>Settings</h1>
-        <form>
+        <form action="/game" method="post">
             <label for="sl">Story Length:</label>
             <input type="text" id="sl" name="sl"><br>
 
@@ -73,6 +73,7 @@
             <label for="genre6">What is your name?</label>
             <input type="text" id="name" name="name"><br>
 
+            <button type="submit" class="begin-btn" onclick="">Begin</button>
         </form>
     </div>
 </body>
