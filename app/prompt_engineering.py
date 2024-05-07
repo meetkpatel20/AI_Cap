@@ -2,12 +2,12 @@ def create_system_message(story_length, theme, person_type, creature, name):
     prompt = (
         f"You will be creating a choose your own adventure story that is {story_length} "
         f"chapters long where the theme is {theme}, the story is told in {person_type} "
-        f"person naration, the main character is a {creature}, and the character's name "
-        f" is {name}. The reponse should be in the following format: "
+        f"person narration, the main character is a {creature}, and the character's name "
+        f"is {name}. The reponse should be in the following format: "
     )
     response_format = (
         "<h1>Insert chapter title here</h1>"
-        "<p>Insert the chapter content here in less that 100 words"
+        "<p>Insert the chapter content here in less that 100 words</p>"
         "<p>Insert a brief sentence that summarizes the paragraph above</p>"
         "<ul>"
         "<li>Insert choice 1 here</li>"
@@ -40,7 +40,7 @@ def create_ending_prompt(choice):
     )
     response_format = (
         "<h1>Insert chapter title here</h1>"
-        "<p>Insert the chapter content here in less that 100 words"
+        "<p>Insert the chapter content here in less that 100 words</p>"
         "<p>Insert a brief sentence that summarizes the paragraph above</p>"
     )
     return prompt + response_format
