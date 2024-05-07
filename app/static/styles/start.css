@@ -52,11 +52,12 @@ form {
 
 div.top {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 40vh;
+    height: 50vh;
 }
 
 div.bottom {
-    height: 60vh;
+    height: 50vh;
 }
