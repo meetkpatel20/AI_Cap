@@ -7,7 +7,7 @@ def create_system_message(story_length, theme, person_type, creature, name):
     )
     response_format = (
         "<h1>Insert chapter title here</h1>"
-        "<p>Insert the chapter content here in less that 100 words</p>"
+        "<p>Insert the chapter content here in less than 200 words</p>"
         "<p>Insert a brief sentence that summarizes the paragraph above</p>"
         "<ul>"
         "<li>Insert choice 1 here</li>"
@@ -40,7 +40,7 @@ def create_ending_prompt(choice):
     )
     response_format = (
         "<h1>Insert chapter title here</h1>"
-        "<p>Insert the chapter content here in less that 100 words</p>"
+        "<p>Insert the chapter content here in less than 200 words</p>"
         "<p>Insert a brief sentence that summarizes the paragraph above</p>"
     )
     return prompt + response_format
