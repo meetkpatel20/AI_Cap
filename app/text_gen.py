@@ -107,7 +107,7 @@ def img_model(art):
 
     {art["chapter"]}
 
-    Do not add text to the painting and only make one image.
+    Do not add text/words to the image and only make one image.
 
     """
     response = client.images.generate(
