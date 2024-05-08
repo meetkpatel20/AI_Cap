@@ -3,12 +3,13 @@ Routes for game engine
 """
 from flask import render_template, request, redirect, url_for, session
 from app import app
-from app.model_helpers import (
+from app.langchain_utils import (
     generate_chain,
     get_model_response,
     generate_end_prompt,
     generate_output_parser,
     generate_format_instructions,
+    generate_image
 )
 
 CHAIN = None
@@ -40,15 +41,16 @@ def begin():
 
     global CHAIN, PARSER
     CHAIN, PARSER = generate_chain(session)
-    content = get_model_response(CHAIN, PARSER, session["current_chapter"], "None")
+    content = get_model_response(
+        CHAIN, PARSER, session["current_chapter"], "None")
     session["body"] = content.get("body")
+    img_url = generate_image(session["body"])
 
     return render_template(
         "begin.html",
-        # chapter_num=session["current_chapter"],
         title=content.get("title"),
         body=content.get("body"),
-        # image_link = image_link
+        image_link=img_url,
         choice1=content.get("choice1"),
         choice2=content.get("choice2"),
         choice3=content.get("choice3"),
@@ -70,13 +72,13 @@ def game():
         CHAIN, PARSER, session["current_chapter"], session["body"]
     )
     session["body"] = content.get("body")
+    img_url = generate_image(session["body"])
 
     return render_template(
         "game.html",
-        # chapter_num=session["current_chapter"],
         title=content.get("title"),
         body=content.get("body"),
-        # image_link = image_link
+        image_link=img_url,
         choice1=content.get("choice1"),
         choice2=content.get("choice2"),
         choice3=content.get("choice3"),
@@ -94,9 +96,11 @@ def end():
     content = get_model_response(
         CHAIN, PARSER, session["current_chapter"], session["body"]
     )
+    img_url = generate_image(content.get("body"))
+
     return render_template(
         "end.html",
-        # chapter_num=session["current_chapter"],
         title=content.get("title"),
         body=content.get("body"),
+        image_link=img_url
     )

@@ -3,6 +3,7 @@ from langchain.chains import LLMChain
 from langchain.memory import ConversationSummaryMemory
 from langchain.prompts import PromptTemplate
 from langchain.output_parsers import ResponseSchema, StructuredOutputParser
+from langchain_community.utilities.dalle_image_generator import DallEAPIWrapper
 
 
 def generate_output_parser(ending=False):
@@ -125,3 +126,8 @@ def get_model_response(chain, parser, chapter_number, previous_choice):
     )
     content = parser.parse(response["text"])
     return content
+
+
+def generate_image(content):
+    img_url = DallEAPIWrapper().run(content)
+    return img_url
