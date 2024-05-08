@@ -12,11 +12,10 @@ from app.prompt_engineering import (
     create_ending_prompt,
 )
 from app.parsing import parse_response
-from app.model_helpers import add_message_to_history, send_message
+from app.model_helpers import generate_chain, get_model_response
 
-client = OpenAI()
-HISTORY = []
-
+CHAIN = None
+PARSER = None
 
 @app.route("/")
 @app.route("/start")
@@ -37,40 +36,24 @@ def begin():
     session["current_chapter"] += 1
     session["story_length"] = request.args.get("story-length")
     session["theme"] = request.args.get("theme")
-    session["person_type"] = request.args.get("person-type")
+    session["perspective"] = request.args.get("person-type")
     session["creature"] = request.args.get("creature")
     session["name"] = request.args.get("name")
 
-    system_message = create_system_message(
-        session["story_length"],
-        session["theme"],
-        session["person_type"],
-        session["creature"],
-        session["name"],
-    )
-    add_message_to_history(HISTORY, "system", system_message)
-
-    message = send_message(HISTORY, create_intro_prompt())
-
-    parsed_response = parse_response(message)
-
-    title = parsed_response[0]
-    body = parsed_response[1]
-    image_prompt = parsed_response[2]
-    choices = parsed_response[3:]
-
-    # call image generation here
+    global CHAIN, PARSER
+    CHAIN, PARSER = generate_chain(session)
+    content = get_model_response(CHAIN, PARSER, session["current_chapter"], "None")
 
     return render_template(
         "begin.html",
         chapter_num=session["current_chapter"],
-        title=title,
-        body=body,
+        title=content.get("title"),
+        body=content.get("body"),
         # image_link = image_link
-        choice1=choices[0],
-        choice2=choices[1],
-        choice3=choices[2],
-        choice4=choices[3],
+        choice1=content.get("choice1"),
+        choice2=content.get("choice2"),
+        choice3=content.get("choice3"),
+        choice4=content.get("choice4"),
     )
 
 
