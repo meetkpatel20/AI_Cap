@@ -1,21 +1,19 @@
 """
 Routes for game engine
 """
-from openai import OpenAI
 from flask import render_template, request, redirect, url_for, session
-
 from app import app
-from app.prompt_engineering import (
-    create_system_message,
-    create_intro_prompt,
-    create_game_prompt,
-    create_ending_prompt,
+from app.model_helpers import (
+    generate_chain,
+    get_model_response,
+    generate_end_prompt,
+    generate_output_parser,
+    generate_format_instructions,
 )
-from app.parsing import parse_response
-from app.model_helpers import generate_chain, get_model_response
 
 CHAIN = None
 PARSER = None
+
 
 @app.route("/")
 @app.route("/start")
@@ -43,10 +41,11 @@ def begin():
     global CHAIN, PARSER
     CHAIN, PARSER = generate_chain(session)
     content = get_model_response(CHAIN, PARSER, session["current_chapter"], "None")
+    session["body"] = content.get("body")
 
     return render_template(
         "begin.html",
-        chapter_num=session["current_chapter"],
+        # chapter_num=session["current_chapter"],
         title=content.get("title"),
         body=content.get("body"),
         # image_link = image_link
@@ -67,42 +66,37 @@ def game():
     if session["current_chapter"] == int(session["story_length"]):
         return redirect(url_for("end"))
 
-    message = send_message(
-        HISTORY, create_game_prompt(session["current_chapter"], HISTORY[-1]["content"])
+    content = get_model_response(
+        CHAIN, PARSER, session["current_chapter"], session["body"]
     )
-
-    parsed_response = parse_response(message)
-    print(parsed_response)
-
-    title = parsed_response[0]
-    body = parsed_response[1]
-    image_prompt = parsed_response[2]
-    choices = parsed_response[3:]
-
-    # call image generation here
+    session["body"] = content.get("body")
 
     return render_template(
         "game.html",
-        chapter_num=session["current_chapter"],
-        title=title,
-        body=body,
+        # chapter_num=session["current_chapter"],
+        title=content.get("title"),
+        body=content.get("body"),
         # image_link = image_link
-        choice1=choices[0],
-        choice2=choices[1],
-        choice3=choices[2],
-        choice4=choices[3],
+        choice1=content.get("choice1"),
+        choice2=content.get("choice2"),
+        choice3=content.get("choice3"),
+        choice4=content.get("choice4"),
     )
 
 
 @app.route("/end", methods=["GET"])
 def end():
-    response = send_message(HISTORY, create_ending_prompt(HISTORY[-1]["content"]))
-    parsed_response = parse_response(response)
-    title = parsed_response[0]
-    body = parsed_response[1]
+    global CHAIN, PARSER
+    PARSER = generate_output_parser(ending=True)
+    format_instructions = generate_format_instructions(PARSER)
+    prompt = generate_end_prompt(format_instructions)
+    CHAIN.prompt = prompt
+    content = get_model_response(
+        CHAIN, PARSER, session["current_chapter"], session["body"]
+    )
     return render_template(
         "end.html",
-        chapter_num=session["current_chapter"],
-        title=title,
-        body=body,
+        # chapter_num=session["current_chapter"],
+        title=content.get("title"),
+        body=content.get("body"),
     )
