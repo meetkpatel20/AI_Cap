@@ -1,3 +1,3 @@
 function loadingNotifier(){
-    document.getElementById('loading').innerText = "loading..."
+    document.getElementById('loading').innerHTML = "loading..."
 }

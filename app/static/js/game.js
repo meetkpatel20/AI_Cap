@@ -1,1 +1,3 @@
-console.log(document.getElementById("output").innerHTML)
+function loadingNotifier(){
+    document.getElementById('loading').innerHTML = "loading..."
+}
