@@ -45,6 +45,11 @@ body {
     border-top-right-radius: 2em;*/
 }
 
+.end {
+    display: flex;
+    justify-content: space-around;
+}
+
 .button {
     width: 49%;
     white-space: normal;
@@ -69,6 +74,15 @@ div.choices {
     padding: 4px;*/
     width: 100%;
     height: 35vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    text-align: justify;
+}
+
+div.body_end {
+    /*margin: 4px, 4px;
+    padding: 4px;*/
+    width: 100%;
     overflow-x: hidden;
     overflow-y: auto;
     text-align: justify;
