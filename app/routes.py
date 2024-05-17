@@ -48,6 +48,7 @@ def begin():
     ART = IMG_Prompt_model(session["body"])
     # img_url = generate_image(session["body"])
     ART["chapter"] = session["body"]
+    print(ART)
     img_url = img_model(ART)
     return render_template(
         "begin.html",

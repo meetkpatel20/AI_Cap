@@ -25,7 +25,7 @@ def IMG_Prompt_model(prompt):
     #new_art['chapter'] = data['choices'][0]['message']['content'][0]
     content = data['choices'][0]['message']['content']
     content_data = json.loads(content)
-    new_art['gender'] = content_data['gender']
+    new_art['gender'] = content_data.get('gender', 'female')
     new_art['age'] = content_data['age']
     new_art['eye_color'] = content_data['eye_color']
     new_art['hair_color'] = content_data['hair_color']
