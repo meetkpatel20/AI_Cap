@@ -32,10 +32,9 @@
             </section>
         </div>
         <div class="bottom">
-            <form action="/game" method="post">
+            <form class="choices" action="/game" method="post">
                 <button type="button submit" class="btn btn-primary btn-lg button" name="choice-btn" value="{{ choice1 }}" onclick="loadingNotifier()">{{ choice1 }}</button>
                 <button type="button submit" class="btn btn-primary btn-lg button" name="choice-btn" value="{{ choice2 }}" onclick="loadingNotifier()">{{ choice2 }}</button>
-                <br>
                 <button type="button submit" class="btn btn-primary btn-lg button" name="choice-btn" value="{{ choice3 }}" onclick="loadingNotifier()">{{ choice3 }}</button>
                 <button type="button submit" class="btn btn-primary btn-lg button" name="choice-btn" value="{{ choice4 }}" onclick="loadingNotifier()">{{ choice4 }}</button>
             </form>

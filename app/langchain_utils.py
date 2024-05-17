@@ -17,13 +17,13 @@ def generate_output_parser(ending=False):
     response_schemas.append(
         ResponseSchema(
             name="body",
-            description="the body of the chapter's content using 100 words"
+            description="the body of the chapter's content using 150 words"
         )
     )
     response_schemas.append(
         ResponseSchema(
             name="img_prompt",
-            description="a summarization of the body used for image generation in 50 words",
+            description="a summarization of the body used for image generation in less that 100 words but be sure to include descriptors about the character and setting",
         )
     )
 
@@ -129,5 +129,6 @@ def get_model_response(chain, parser, chapter_number, previous_choice):
 
 
 def generate_image(content):
+    print(content)
     img_url = DallEAPIWrapper().run(content)
     return img_url

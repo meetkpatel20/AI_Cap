@@ -9,11 +9,13 @@ from app.langchain_utils import (
     generate_end_prompt,
     generate_output_parser,
     generate_format_instructions,
-    generate_image
+    # generate_image,
 )
+from app.image_generation import IMG_Prompt_model, img_model
 
 CHAIN = None
 PARSER = None
+ART = {}
 
 
 @app.route("/")
@@ -39,13 +41,14 @@ def begin():
     session["creature"] = request.args.get("creature")
     session["name"] = request.args.get("name")
 
-    global CHAIN, PARSER
+    global CHAIN, PARSER, ART
     CHAIN, PARSER = generate_chain(session)
-    content = get_model_response(
-        CHAIN, PARSER, session["current_chapter"], "None")
+    content = get_model_response(CHAIN, PARSER, session["current_chapter"], "None")
     session["body"] = content.get("body")
-    img_url = generate_image(session["body"])
-
+    ART = IMG_Prompt_model(session["body"])
+    # img_url = generate_image(session["body"])
+    ART["chapter"] = session["body"]
+    img_url = img_model(ART)
     return render_template(
         "begin.html",
         title=content.get("title"),
@@ -72,7 +75,10 @@ def game():
         CHAIN, PARSER, session["current_chapter"], session["body"]
     )
     session["body"] = content.get("body")
-    img_url = generate_image(session["body"])
+    # img_url = generate_image(session["body"])
+    global ART
+    ART["chapter"] = session["body"]
+    img_url = img_model(ART)
 
     return render_template(
         "game.html",
@@ -88,7 +94,7 @@ def game():
 
 @app.route("/end", methods=["GET"])
 def end():
-    global CHAIN, PARSER
+    global CHAIN, PARSER, ART
     PARSER = generate_output_parser(ending=True)
     format_instructions = generate_format_instructions(PARSER)
     prompt = generate_end_prompt(format_instructions)
@@ -96,11 +102,13 @@ def end():
     content = get_model_response(
         CHAIN, PARSER, session["current_chapter"], session["body"]
     )
-    img_url = generate_image(content.get("body"))
+    # img_url = generate_image(content.get("body"))
+    ART["chapter"] = content.get("body")
+    img_url = img_model(ART)
 
     return render_template(
         "end.html",
         title=content.get("title"),
         body=content.get("body"),
-        image_link=img_url
+        image_link=img_url,
     )
